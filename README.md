@@ -73,4 +73,4 @@ Este proyecto fue creado por [JoseNava100](https://github.com/JoseNava100/larave
 
 ### Dashboard
 ![Dashboard](assets/img/DashboardPage.png)
-*Vista del dashboard después de iniciar sesión. Aquí los usuarios pueden gestionar sus tareas, ver estadísticas y acceder a otras funcionalidades de la aplicación.*
+*Vista del dashboard después de iniciar sesión. Aquí los usuarios pueden gestionar sus tareas, ver estadísticas y acceder a otras funcionalidades de la aplicación, que proximamente seran añadidas.*
