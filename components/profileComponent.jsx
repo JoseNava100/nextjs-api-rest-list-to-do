@@ -110,7 +110,7 @@ export default function ProfilePage() {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <p className='text-blue-700'>Loading...</p>;
     }
 
     if (error) {
