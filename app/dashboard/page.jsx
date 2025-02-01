@@ -5,7 +5,6 @@ import HeaderComponent from "@/components/headerComponent";
 export default function DashboardPage() {
     return (
         <div>
-            <HeaderComponent />
             <DashboardComponent />
             <FooterComponent />
         </div>

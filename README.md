@@ -56,3 +56,6 @@ Este proyecto es complemento de una **API RESTful** creada anteriormente con **L
 ## Creador
 
 Este proyecto fue creado por [JoseNava100](https://github.com/JoseNava100/laravel-sanctum-api-rest).
+
+## Capturas
+
