@@ -59,3 +59,18 @@ Este proyecto fue creado por [JoseNava100](https://github.com/JoseNava100/larave
 
 ## Capturas
 
+### Página de Inicio
+![Homepage](assets/img/Homepage.png)
+*Página principal de la aplicación, donde se presenta una breve descripción del proyecto y se ofrecen enlaces para registrarse o iniciar sesión.*
+
+### Página de Registro
+![Register](assets/img/RegisterPage.png)
+*Interfaz de registro para nuevos usuarios. Los campos solicitados incluyen nombre, correo electrónico y contraseña.*
+
+### Página de Inicio de Sesión
+![Login](assets/img/loginPage.png)
+*Interfaz de inicio de sesión para usuarios registrados. Los usuarios pueden ingresar su correo electrónico y contraseña para acceder al dashboard.*
+
+### Dashboard
+![Dashboard](assets/img/DashboardPage.png)
+*Vista del dashboard después de iniciar sesión. Aquí los usuarios pueden gestionar sus tareas, ver estadísticas y acceder a otras funcionalidades de la aplicación.*
