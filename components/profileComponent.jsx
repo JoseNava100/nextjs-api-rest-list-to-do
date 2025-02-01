@@ -1,23 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function ProfilePage() {
-    const router = useRouter();
     const [user, setUser] = useState({
         name: '',
         username: '',
         email: '',
-        current_password: '', // Contraseña actual para confirmar cambios
-        password: '', // Nueva contraseña (opcional)
-        password_confirmation: '', // Confirmación de nueva contraseña
+        current_password: '',
+        password: '',
+        password_confirmation: '',
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Obtener los datos del usuario al cargar la página
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -37,7 +34,7 @@ export default function ProfilePage() {
                         password_confirmation: '',
                     });
                 } else {
-                    throw new Error('Error al obtener los datos del usuario');
+                    throw new Error('Error getting user data');
                 }
             } catch (error) {
                 setError(error.message);
@@ -49,7 +46,6 @@ export default function ProfilePage() {
         fetchUserData();
     }, []);
 
-    // Manejar cambios en los campos del formulario
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser({
@@ -58,15 +54,25 @@ export default function ProfilePage() {
         });
     };
 
-    // Manejar el envío del formulario para actualizar el perfil
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
 
-        // Validar que la contraseña actual esté presente
         if (!user.current_password) {
-            setError('Debes ingresar tu contraseña actual para confirmar los cambios.');
+            setError('You must enter your current password to confirm the changes.');
             return;
+        }
+
+        const payload = {
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            current_password: user.current_password,
+        };
+
+        if (user.password) {
+            payload.password = user.password;
+            payload.password_confirmation = user.password_confirmation;
         }
 
         try {
@@ -77,14 +83,13 @@ export default function ProfilePage() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(payload),
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                alert('Perfil actualizado correctamente');
-                // Limpiar campos de contraseña después de una actualización exitosa
+                alert('Profile updated successfully');
                 setUser({
                     ...user,
                     current_password: '',
@@ -92,15 +97,20 @@ export default function ProfilePage() {
                     password_confirmation: '',
                 });
             } else {
-                setError(data.errors || 'Error al actualizar el perfil');
+                if (data.errors) {
+                    const errorMessages = Object.values(data.errors).flat().join(', ');
+                    setError(errorMessages);
+                } else {
+                    setError(data.message || 'Error updating profile');
+                }
             }
         } catch (error) {
-            setError('Error de conexión con el servidor');
+            setError('Server connection error');
         }
     };
 
     if (loading) {
-        return <p>Cargando...</p>;
+        return <p>Loading...</p>;
     }
 
     if (error) {
@@ -109,11 +119,11 @@ export default function ProfilePage() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">Configuración del Perfil</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Profile Settings</h1>
             <form onSubmit={handleSubmit} className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                        Nombre
+                        Name
                     </label>
                     <input
                         type="text"
@@ -121,12 +131,12 @@ export default function ProfilePage() {
                         value={user.name}
                         onChange={handleInputChange}
                         className="w-full p-2 border border-gray-300 rounded-lg"
-                        placeholder="Nombre"
+                        placeholder="Example: John Doe"
                     />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                        Nombre de usuario
+                        Username
                     </label>
                     <input
                         type="text"
@@ -134,12 +144,12 @@ export default function ProfilePage() {
                         value={user.username}
                         onChange={handleInputChange}
                         className="w-full p-2 border border-gray-300 rounded-lg"
-                        placeholder="Nombre de usuario"
+                        placeholder="Example: johndoe"
                     />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                        Correo electrónico
+                        Email
                     </label>
                     <input
                         type="email"
@@ -147,12 +157,12 @@ export default function ProfilePage() {
                         value={user.email}
                         onChange={handleInputChange}
                         className="w-full p-2 border border-gray-300 rounded-lg"
-                        placeholder="Correo electrónico"
+                        placeholder="Example: johndoe@example.com"
                     />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="current_password">
-                        Contraseña actual
+                        Current password
                     </label>
                     <input
                         type="password"
@@ -160,13 +170,13 @@ export default function ProfilePage() {
                         value={user.current_password}
                         onChange={handleInputChange}
                         className="w-full p-2 border border-gray-300 rounded-lg"
-                        placeholder="Contraseña actual"
+                        placeholder="Password"
                         required
                     />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                        Nueva contraseña (opcional)
+                        New Password (optional)
                     </label>
                     <input
                         type="password"
@@ -174,12 +184,12 @@ export default function ProfilePage() {
                         value={user.password}
                         onChange={handleInputChange}
                         className="w-full p-2 border border-gray-300 rounded-lg"
-                        placeholder="Nueva contraseña"
+                        placeholder="Example: aas123asasa456asasa"
                     />
                 </div>
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password_confirmation">
-                        Confirmar nueva contraseña
+                        Confirm new password
                     </label>
                     <input
                         type="password"
@@ -187,7 +197,7 @@ export default function ProfilePage() {
                         value={user.password_confirmation}
                         onChange={handleInputChange}
                         className="w-full p-2 border border-gray-300 rounded-lg"
-                        placeholder="Confirmar nueva contraseña"
+                        placeholder="Example: aas123asasa456asasa"
                     />
                 </div>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -196,13 +206,13 @@ export default function ProfilePage() {
                         type="submit"
                         className="flex-1 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200"
                     >
-                        Guardar cambios
+                        Save changes
                     </button>
                     <Link
                         href="/dashboard"
                         className="flex-1 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors duration-200 text-center"
                     >
-                        Regresar al Dashboard
+                        Return to Dashboard
                     </Link>
                 </div>
             </form>
