@@ -10,13 +10,13 @@ export default function Home() {
           <img
             src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
             alt="Next.js Logo"
-            link="https://nextjs.org" 
+            href="https://nextjs.org" 
             className="w-24 h-24 transition-transform transform hover:scale-110"
           />
           <img
             src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg"
             alt="Laravel Logo"
-            link="https://laravel.com"
+            href="https://laravel.com"
             className="w-24 h-24 transition-transform transform hover:scale-110"
           />
         </div>
