@@ -60,7 +60,7 @@ Este proyecto fue creado por [JoseNava100](https://github.com/JoseNava100/larave
 ## Capturas
 
 ### Página de Inicio
-![Homepage](assets/img/Homepage.png)
+![Homepage](assets/img/HomePage.png)
 *Página principal de la aplicación, donde se presenta una breve descripción del proyecto y se ofrecen enlaces para registrarse o iniciar sesión.*
 
 ### Página de Registro
@@ -68,7 +68,7 @@ Este proyecto fue creado por [JoseNava100](https://github.com/JoseNava100/larave
 *Interfaz de registro para nuevos usuarios. Los campos solicitados incluyen nombre, correo electrónico y contraseña.*
 
 ### Página de Inicio de Sesión
-![Login](assets/img/loginPage.png)
+![Login](assets/img/LoginPage.png)
 *Interfaz de inicio de sesión para usuarios registrados. Los usuarios pueden ingresar su correo electrónico y contraseña para acceder al dashboard.*
 
 ### Dashboard
