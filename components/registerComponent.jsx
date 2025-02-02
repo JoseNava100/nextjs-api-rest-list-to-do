@@ -13,7 +13,7 @@ export default function RegisterComponent() {
     });
 
     const [message, setMessage] = useState('');
-    const router = useRouter(); // Hook para redireccionar
+    const router = useRouter();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,7 +39,7 @@ export default function RegisterComponent() {
 
             if (response.status === 201) {
                 setMessage('User registered successfully!');
-                router.push('/login'); // Redirigir al dashboard
+                router.push('/login');
             } else {
                 setMessage(data.message || 'Error registering user');
             }

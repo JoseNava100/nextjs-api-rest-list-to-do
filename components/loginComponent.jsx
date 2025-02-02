@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Importación correcta para Pages Router
+import { useRouter } from 'next/navigation';
 
 export default function LoginComponent() {
     const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ export default function LoginComponent() {
     });
 
     const [message, setMessage] = useState('');
-    const router = useRouter(); // Hook para redireccionar
+    const router = useRouter();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,15 +30,15 @@ export default function LoginComponent() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
-                credentials: 'include', // Necesario para manejar cookies (por ejemplo, con Sanctum)
+                credentials: 'include',
             });
 
             const data = await response.json();
 
             if (response.status === 201) {
                 setMessage('Login successful!');
-                localStorage.setItem('authToken', data.data.token); // Guardar el token
-                router.push('/dashboard'); // Redirigir al dashboard
+                localStorage.setItem('authToken', data.data.token); 
+                router.push('/dashboard'); 
             } else {
                 setMessage(data.message || 'Error during login');
             }

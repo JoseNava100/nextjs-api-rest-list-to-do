@@ -3,38 +3,33 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import TaskManager from './taskComponent';
-import { FaUser, FaSignOutAlt } from 'react-icons/fa'; // Importar iconos
+import { FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 export default function DashboardComponent() {
     const router = useRouter();
     const [showConfirmation, setShowConfirmation] = useState(false);
 
-    // Verificar si el usuario está autenticado al cargar el componente
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (!token) {
-            router.push('/login'); // Redirigir al login si no hay token
+            router.push('/login');
         }
     }, []);
 
-    // Función para cerrar sesión
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem('authToken');
-
-            // Hacer la solicitud de logout al backend (Laravel)
             const response = await fetch('http://localhost:8000/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Enviar el token en la cabecera
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
             if (response.ok) {
-                localStorage.removeItem('authToken'); // Eliminar el token del localStorage
-                router.push('/login'); // Redirigir al usuario a la página de login
-            } else {
+                localStorage.removeItem('authToken');
+                router.push('/login');
                 console.error('Error during logout');
             }
         } catch (error) {
@@ -42,54 +37,46 @@ export default function DashboardComponent() {
         }
     };
 
-    // Mostrar confirmación antes de cerrar sesión
     const confirmLogout = () => {
         setShowConfirmation(true);
     };
 
-    // Cancelar cierre de sesión
     const cancelLogout = () => {
         setShowConfirmation(false);
     };
 
-    // Función para ver el perfil del usuario
     const handleViewProfile = () => {
-        router.push('/dashboard/profile'); // Redirigir a la página de perfil
+        router.push('/dashboard/profile');
     };
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
-            {/* Header fijo en la parte superior */}
             <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
                 <div className="container mx-auto px-4 py-2 flex justify-end items-center space-x-4">
-                    {/* Botón de perfil con ícono */}
                     <button
                         onClick={handleViewProfile}
                         className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
                         title="View Profile"
                     >
-                        <FaUser className="w-6 h-6" /> {/* Ícono de perfil */}
+                        <FaUser className="w-6 h-6" />
                     </button>
 
-                    {/* Botón de cerrar sesión con ícono */}
                     <button
                         onClick={confirmLogout}
                         className="text-gray-700 hover:text-red-600 transition-colors duration-200"
                         title="Sign Out"
                     >
-                        <FaSignOutAlt className="w-6 h-6" /> {/* Ícono de cerrar sesión */}
+                        <FaSignOutAlt className="w-6 h-6" />
                     </button>
                 </div>
             </header>
 
-            {/* Contenido principal */}
-            <main className="flex-grow pt-16"> {/* Añadir padding-top para evitar solapamiento con el header */}
+            <main className="flex-grow pt-16">
                 <div className="container mx-auto p-4">
                     <TaskManager />
                 </div>
             </main>
 
-            {/* Modal de confirmación para cerrar sesión */}
             {showConfirmation && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">

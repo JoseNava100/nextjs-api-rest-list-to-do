@@ -9,8 +9,7 @@ export default function Notification({ message, type, onClose }) {
         const timer = setTimeout(() => {
             setVisible(false);
             onClose();
-        }, 5000); // Oculta la notificación después de 5 segundos
-
+        }, 5000); 
         return () => clearTimeout(timer);
     }, [onClose]);
 
