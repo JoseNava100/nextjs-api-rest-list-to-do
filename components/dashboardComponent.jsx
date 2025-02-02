@@ -30,7 +30,6 @@ export default function DashboardComponent() {
             if (response.ok) {
                 localStorage.removeItem('authToken');
                 router.push('/login');
-                console.error('Error during logout');
             }
         } catch (error) {
             console.error('An error occurred while logging out', error);
