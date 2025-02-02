@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Notification from './notificationComponent';
+import { ClipLoader } from 'react-spinners';
 
 export default function ProfilePage() {
     const [user, setUser] = useState({
@@ -14,6 +16,11 @@ export default function ProfilePage() {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [notification, setNotification] = useState({
+        visible: false,
+        message: '',
+        type: '',
+    });
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -89,7 +96,12 @@ export default function ProfilePage() {
             const data = await response.json();
 
             if (response.ok) {
-                alert('Profile updated successfully');
+                setNotification({
+                    visible: true,
+                    message: 'Profile updated successfully',
+                    type: 'success',
+                });
+
                 setUser({
                     ...user,
                     current_password: '',
@@ -110,11 +122,41 @@ export default function ProfilePage() {
     };
 
     if (loading) {
-        return <p className='text-blue-700'>Loading...</p>;
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <ClipLoader color="#3B82F6" size={70} />
+            </div>
+        );
     }
 
     if (error) {
-        return <p className="text-red-500">{error}</p>;
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="bg-red-50 p-6 rounded-lg shadow-md text-center max-w-md">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8 text-red-500 mx-auto"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    <p className="text-red-600 font-medium mt-4">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -216,6 +258,14 @@ export default function ProfilePage() {
                     </Link>
                 </div>
             </form>
+
+            {notification.visible && (
+                <Notification
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification({ ...notification, visible: false })}
+                />
+            )}
         </div>
     );
 }
